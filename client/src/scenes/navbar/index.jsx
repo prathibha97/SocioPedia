@@ -150,7 +150,7 @@ const Navbar = () => {
             <Message sx={{ fontSize: "25px" }} />
             <Notifications sx={{ fontSize: "25px" }} />
             <Help sx={{ fontSize: "25px" }} />
-            <FormControl variant="standard" value={fullName}>
+            {user && <FormControl variant="standard" value={fullName}>
               <Select
                 value={fullName}
                 sx={{
@@ -175,7 +175,7 @@ const Navbar = () => {
                   Log Out
                 </MenuItem>
               </Select>
-            </FormControl>
+            </FormControl>}
           </FlexBetween>
         </Box>
       )}

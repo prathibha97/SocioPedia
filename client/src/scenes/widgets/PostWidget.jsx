@@ -102,7 +102,7 @@ const PostWidget = ({
       </FlexBetween>
       {isComments && (
         <Box mt='0.5rem'>
-          {comments.map((comment, i) => (
+          {comments?.map((comment, i) => (
             <Box key={`${name}-${i}`}>
               <Divider />
               <Typography sx={{ color: main, m: '0.5rem 0' }}>

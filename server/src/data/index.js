@@ -1,7 +1,6 @@
 import mongoose from "mongoose";
 import User from "../models/User.js"
 import Post from "../models/Post.js"
-import {posts,users} from './index.js'
 
 const userIds = [
   new mongoose.Types.ObjectId(),

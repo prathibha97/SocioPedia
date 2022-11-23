@@ -2,12 +2,10 @@ import express from 'express'
 import bodyParser from 'body-parser'
 import cors from 'cors'
 import dotenv from 'dotenv'
-import multer from 'multer'
 import helmet from 'helmet'
 import morgan from 'morgan'
 import path from 'path'
 import {fileURLToPath} from 'url'
-import {upload} from '../services/file-storage.js'
 import api from './routes/api.js'
 
 // configs
@@ -24,9 +22,9 @@ app.use(morgan('common'))
 app.use(bodyParser.json({limit: '30mb', extended: true}))
 app.use(bodyParser.urlencoded({limit: '30mb', extended: true}))
 app.use(cors())
-app.use('/assets', express.static(path.join(__dirname, 'src/public/assets')))
-
 app.use('/api', api)
+app.use('/assets', express.static(path.join(__dirname, '/public/assets')))
+
 
 export default app
 

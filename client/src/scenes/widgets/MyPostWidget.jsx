@@ -1,29 +1,20 @@
 import {
-  EditOutlined,
-  DeleteOutlined,
-  AttachFileOutlined,
-  GifBoxOutlined,
+  AttachFileOutlined, DeleteOutlined, EditOutlined, GifBoxOutlined,
   ImageOutlined,
   MicOutlined,
-  MoreHorizOutlined,
+  MoreHorizOutlined
 } from "@mui/icons-material";
 import {
-  Box,
-  Divider,
-  Typography,
-  InputBase,
-  useTheme,
-  Button,
-  IconButton,
-  useMediaQuery,
+  Box, Button, Divider, IconButton, InputBase, Typography, useMediaQuery, useTheme
 } from "@mui/material";
 import FlexBetween from "components/FlexBetween";
-import Dropzone from "react-dropzone";
 import UserImage from "components/UserImage";
 import WidgetWrapper from "components/WidgetWrapper";
 import { useState } from "react";
+import Dropzone from "react-dropzone";
 import { useDispatch, useSelector } from "react-redux";
 import { setPosts } from "state";
+import api from "utils/axios";
 
 const MyPostWidget = ({ picturePath }) => {
   const dispatch = useDispatch();
@@ -46,13 +37,10 @@ const MyPostWidget = ({ picturePath }) => {
       formData.append("picturePath", image.name);
     }
 
-    const response = await fetch(`http://localhost:5000/api/posts/post`, {
-      method: "POST",
+    const { data } = await api.post(`/posts/post`, formData, {
       headers: { Authorization: `Bearer ${token}` },
-      body: formData,
-    });
-    const posts = await response.json();
-    dispatch(setPosts({ posts }));
+    })
+    dispatch(setPosts( data ));
     setImage(null);
     setPost("");
   };

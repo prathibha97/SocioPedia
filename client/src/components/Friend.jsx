@@ -3,6 +3,7 @@ import { Box, IconButton, Typography, useTheme } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { setFriends } from 'state'
+import api from 'utils/axios'
 import FlexBetween from './FlexBetween'
 import UserImage from './UserImage'
 
@@ -22,14 +23,12 @@ const Friend = ({ friendId, name, subtitle, userPicturePath }) => {
   const isFriend = friends.find((friend) => friend._id === friendId)
 
   const patchFriend = async () => {
-    const response = await fetch(`http://localhost:5000/api/users/${_id}/${friendId}`, {
-      method: 'PATCH',
+    const {data} = await api.patch(`/users/${_id}/${friendId}`, {
       headers: {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json'
       }
     })
-    const data = await response.json()
     dispatch(setFriends({ friends: data }))
   }
 

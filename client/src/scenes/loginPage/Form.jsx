@@ -1,20 +1,18 @@
-import { useState } from "react";
+import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import {
   Box,
   Button,
-  TextField,
-  useMediaQuery,
-  Typography,
-  useTheme,
+  TextField, Typography, useMediaQuery, useTheme
 } from "@mui/material";
-import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
-import { Formik } from "formik";
-import * as yup from "yup";
-import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { setLogin } from "state";
-import Dropzone from "react-dropzone";
 import FlexBetween from "components/FlexBetween";
+import { Formik } from "formik";
+import { useState } from "react";
+import Dropzone from "react-dropzone";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { setLogin } from "state";
+import api from "utils/axios";
+import * as yup from "yup";
 
 const registerSchema = yup.object().shape({
   firstName: yup.string().required("required"),
@@ -63,34 +61,25 @@ const Form = () => {
     }
     formData.append("picturePath", values.picture.name);
 
-    const savedUserResponse = await fetch(
-      "http://localhost:5000/api/auth/register",
-      {
-        method: "POST",
-        body: formData,
-      }
-    );
-    const savedUser = await savedUserResponse.json();
+    const data = await api.post("/auth/register", formData);
     onSubmitProps.resetForm();
 
-    if (savedUser) {
+    if (data) {
       setPageType("login");
     }
   };
 
   const login = async (values, onSubmitProps) => {
-    const loggedInResponse = await fetch("http://localhost:5000/api/auth/login", {
-      method: "POST",
+    const config = {
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(values),
-    });
-    const loggedIn = await loggedInResponse.json();
+    }
+    const { data } = await api.post("/auth/login", JSON.stringify(values), config);
     onSubmitProps.resetForm();
-    if (loggedIn) {
+    if (data) {
       dispatch(
         setLogin({
-          user: loggedIn.user,
-          token: loggedIn.token,
+          user: data.user,
+          token: data.token,
         })
       );
       navigate("/home");

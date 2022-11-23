@@ -17,6 +17,7 @@ import WidgetWrapper from 'components/WidgetWrapper'
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { setPost } from 'state'
+import api from 'utils/axios'
 
 const PostWidget = ({
   postId,
@@ -42,16 +43,13 @@ const PostWidget = ({
   const primary = palette.primary.main
 
   const patchLike = async () => {
-    const response = await fetch(`http://localhost:5000/api/posts/${postId}/like`, {
-      method: 'PATCH',
+    const { data } = await api.patch(`/posts/${postId}/like`, JSON.stringify({ userId: loggedInUserId }), {
       headers: {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ userId: loggedInUserId })
     })
-    const updatedPost = await response.json()
-    dispatch(setPost({ post: updatedPost }))
+    dispatch(setPost({ post: data }))
   }
 
   return (

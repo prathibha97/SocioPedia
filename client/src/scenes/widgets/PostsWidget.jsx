@@ -10,16 +10,17 @@ const PostsWidget = ({ userId, isProfile = false }) => {
   const token = useSelector((state) => state.token)
 
   const getPosts = async () => {
-    const {data} = await api.get(`/posts`, {
+    const { data } = await api.get(`/posts`, {
       headers: { Authorization: `Bearer ${token}` },
     })
     dispatch(setPosts({ posts: data }))
   }
 
   const getUserPosts = async () => {
-    const {data} = await api.get(`/posts/${userId}/posts`, {
+    const { data } = await api.get(`/posts/${userId}/posts`, {
       headers: { Authorization: `Bearer ${token}` },
     })
+    console.log(data)
     dispatch(setPosts({ posts: data }))
   }
 
@@ -32,7 +33,7 @@ const PostsWidget = ({ userId, isProfile = false }) => {
   }, []) //eslint-disable-line react-hooks/exhaustive-deps
   return (
     <>
-      {posts?.map(({
+      {posts.map(({
         _id,
         userId,
         firstName,

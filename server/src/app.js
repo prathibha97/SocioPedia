@@ -16,7 +16,24 @@ dotenv.config()
 const app = express()
 
 app.use(express.json())
-app.use(helmet())
+app.use(
+  helmet.contentSecurityPolicy({
+    directives: {
+      "default-src": ["'self'"],
+      "script-src": ["'self'", "'unsafe-inline'"],
+      "style-src": ["'self'", "'unsafe-inline'", "fonts.googleapis.com"],
+      "frame-src": ["'self'", ],
+      "font-src": [
+        "'self'",
+        "fonts.googleapis.com",
+        "fonts.gstatic.com",
+        "res.cloudinary.com/",
+      ],
+      "img-src": ["'self'", "data:", "https://res.cloudinary.com"],
+    },
+    reportOnly: true,
+  })
+);
 app.use(helmet.crossOriginResourcePolicy({policy:'cross-origin'}))
 app.use(morgan('common'))
 app.use(bodyParser.json({limit: '30mb', extended: true}))

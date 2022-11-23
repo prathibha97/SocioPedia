@@ -5,8 +5,8 @@ import { verifyToken } from '../middleware/auth.js'
 
 const postRouter = express.Router()
 
-postRouter.post('/post', verifyToken, upload.single('picture'), createPost)
 postRouter.get('/', verifyToken, getFeedPosts)
+postRouter.post('/post', verifyToken, upload.single('picture'), createPost)
 postRouter.get('/:userId/posts', verifyToken, getUserPosts)
 postRouter.patch('/:id/like', verifyToken, likePost)
 

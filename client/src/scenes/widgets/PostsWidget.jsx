@@ -20,7 +20,6 @@ const PostsWidget = ({ userId, isProfile = false }) => {
     const { data } = await api.get(`/posts/${userId}/posts`, {
       headers: { Authorization: `Bearer ${token}` },
     })
-    console.log(data)
     dispatch(setPosts({ posts: data }))
   }
 

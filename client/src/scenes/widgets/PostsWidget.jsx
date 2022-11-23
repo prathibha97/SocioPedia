@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { setPosts } from 'state'
+import api from 'utils/axios'
 import PostWidget from './PostWidget'
 
 const PostsWidget = ({ userId, isProfile = false }) => {
@@ -9,20 +10,16 @@ const PostsWidget = ({ userId, isProfile = false }) => {
   const token = useSelector((state) => state.token)
 
   const getPosts = async () => {
-    const response = await fetch(`http://localhost:5000/api/posts`, {
-      method: 'GET',
+    const {data} = await api.get(`/posts`, {
       headers: { Authorization: `Bearer ${token}` },
     })
-    const data = await response.json()
     dispatch(setPosts({ posts: data }))
   }
 
   const getUserPosts = async () => {
-    const response = await fetch(`http://localhost:5000/api/posts/${userId}/posts`, {
-      method: 'GET',
+    const {data} = await api.get(`/posts/${userId}/posts`, {
       headers: { Authorization: `Bearer ${token}` },
     })
-    const data = await response.json()
     dispatch(setPosts({ posts: data }))
   }
 
